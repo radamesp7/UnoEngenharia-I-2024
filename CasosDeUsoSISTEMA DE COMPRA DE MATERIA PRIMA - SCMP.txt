@@ -1,0 +1,42 @@
+@startuml
+!theme cloudscape-design
+top to bottom direction
+
+!define BACKGROUND_COLOR white
+skinparam backgroundColor BACKGROUND_COLOR
+
+actor Atendente as Atend                         
+actor Caixa as Caixa                             
+actor Cliente as Cli                             
+actor Cozinheiro as Cozin                        
+
+Atend <|-- Caixa                                #orange;line:orange;line.bold;text:orange
+
+rectangle "SISTEMA DE COMPRA DE MATERIA PRIMA - SCMP" as Sistema   #white;line:black;line.bold;text:black; {
+    usecase "Atender Cliente" as At              
+    usecase "Consultar Cardápio" as Card         
+    usecase "Solicitar Lanche" as Sol            
+    usecase "Pagar" as Pag                       
+    usecase "Aguardar Entrega" as Ag             
+    usecase "Enviar Pedido\n à Cozinha" as Env   
+    usecase "Preparar Lanche" as Prep            
+    usecase "Entregar Lanche" as Ent             
+}
+Cli  -right-  Sol                               #blue;line:blue;line.bold;text:blue
+Cli -right- Card                                #blue;line:blue;line.bold;text:blue
+Cli  -right- Pag                                #blue;line:blue;line.bold;text:blue
+Cli  -right-  Ent                               #blue;line:blue;line.bold;text:blue
+Cli  -right- Ag                                 #blue;line:blue;line.bold;text:blue
+(At) <|-- (Ent)                                 #orange;line:orange;line.bold;text:orange
+Atend -- At                                     #blue;line:blue;line.bold;text:blue
+Caixa -- Pag                                    #blue;line:blue;line.bold;text:blue
+Caixa -- Env                                    #blue;line:blue;line.bold;text:blue
+Cozin -left- Prep                               #blue;line:blue;line.bold;text:blue
+Cozin -left- Ent                                #blue;line:blue;line.bold;text:blue
+
+Env ..> Pag                                     #red;line:red;text:red : <<include>>                       
+Prep ..> Env                                    #red;line:red;text:red : <<include>>
+Ent ..> Prep                                    #red;line:red;text:red : <<include>>
+Card ..> Sol                                    #red;line:red;text:red : <<extend>>
+
+@enduml

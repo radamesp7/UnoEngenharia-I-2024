@@ -1,0 +1,58 @@
+"@startuml
+!define ACTORSTYLE class
+
+actor Cliente
+actor Caixa
+
+usecase "Comprar Alimento" as UC1
+usecase "Receber Pagamento" as UC2
+
+Cliente --> UC1 : Compra
+Caixa --> UC2 : Recebe
+
+UC1 --> UC2 : <<extends>>
+
+@enduml
+", use como padrão de cores este diagrama em código plantuml "@startuml
+
+top to bottom direction
+
+!define BACKGROUND_COLOR white
+skinparam backgroundColor BACKGROUND_COLOR
+
+actor Atendente as Atend #green;line:green;line.bold;text:purple
+actor Caixa as Caixa #green;line:green;line.bold;text:purple
+actor Cliente as Cli #green;line:green;line.bold;text:purple
+actor Cozinheiro as Cozin #green;line:green;line.bold;text:purple
+
+Atend <|-- Caixa #orange;line:orange;line.bold;text:orange
+
+rectangle "SISTEMA DE COMPRA DE MATERIA PRIMA - SCMP" as Sistema #white;line:black;line.bold;text:black; {
+ usecase "Atender Cliente" as At #lightgreen;line:blue;line.bold;text:blue
+ usecase "Consultar Cardápio" as Card #lightgreen;line:blue;line.bold;text:blue
+ usecase "Solicitar Lanche" as Sol #lightgreen;line:blue;line.bold;text:blue
+ usecase "Pagar" as Pag #lightgreen;line:blue;line.bold;text:blue
+ usecase "Aguardar Entrega" as Ag #lightgreen;line:blue;line.bold;text:blue
+ usecase "Enviar Pedido\n à Cozinha" as Env #lightgreen;line:blue;line.bold;text:blue
+ usecase "Preparar Lanche" as Prep #lightgreen;line:blue;line.bold;text:blue
+ usecase "Entregar Lanche" as Ent #lightgreen;line:blue;line.bold;text:blue
+}
+
+Cli -right- Sol #blue;line:blue;line.bold;text:blue
+Cli -right- Card #blue;line:blue;line.bold;text:blue
+Cli -right- Pag #blue;line:blue;line.bold;text:blue
+Cli -right- Ent #blue;line:blue;line.bold;text:blue
+Cli -right- Ag #blue;line:blue;line.bold;text:blue
+(At) <|-- (Ent) #orange;line:orange;line.bold;text:orange
+Atend -- At #blue;line:blue;line.bold;text:blue
+Caixa -- Pag #blue;line:blue;line.bold;text:blue
+Caixa -- Env #blue;line:blue;line.bold;text:blue
+Cozin -left- Prep #blue;line:blue;line.bold;text:blue
+Cozin -left- Ent #blue;line:blue;line.bold;text:blue
+
+Env ..> Pag #red;line:red;text:red : <<include>> 
+Prep ..> Env #red;line:red;text:red : <<include>>
+Ent ..> Prep #red;line:red;text:red : <<include>>
+Card ..> Sol #red;line:red;text:red : <<extend>>
+
+@enduml
